@@ -12,7 +12,7 @@ mod ansi {
     pub const SEPARATOR_COLOR: &str = "\x1B[90m";
     pub const HIGHLIGHT_COLOR: &str = "\x1B[47;30m";
     pub const SELECTED_COLOR: &str = "\x1B[32;5;1m";
-    pub const FAIL_SEPARATOR_COLOR: &str = "\x1B[38;5;1m";
+    pub const FAIL_COLOR: &str = "\x1B[38;5;1m";
     pub const RESET_COLOR: &str = "\x1B[0m";
 }
 
@@ -142,8 +142,8 @@ impl WritePromptOptions {
         write!(out, "{}", Self::RESTORE_CURSOR).map_err(|_| PrompterError::IOError)?;
         for (i, item) in items.iter().enumerate() {
             let color = match selected {
-                None if items.len() == 1 => ansi::FAIL_SEPARATOR_COLOR,
-                None => ansi::NORMAL_COLOR,
+                None if items.len() == 1 => ansi::FAIL_COLOR,
+                None => ansi::SEPARATOR_COLOR,
                 Some(sel_idx) if i == sel_idx => ansi::SELECTED_COLOR,
                 Some(_) => ansi::SEPARATOR_COLOR,
             };
@@ -153,7 +153,7 @@ impl WritePromptOptions {
 
             if i + 1 < items.len() {
                 let separator_color = match selected {
-                    None => ansi::FAIL_SEPARATOR_COLOR,
+                    None => ansi::FAIL_COLOR,
                     Some(_) => ansi::SEPARATOR_COLOR,
                 };
                 write!(out, "{} :: {}", separator_color, ansi::RESET_COLOR)
