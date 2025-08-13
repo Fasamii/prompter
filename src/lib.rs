@@ -3,6 +3,9 @@
 
 const MAX_LINE_WIDTH: usize = 50;
 
+const SAVE_CURSOR: &'static str = "\x1b[s";
+const RESTORE_CURSOR: &'static str = "\x1b[u";
+
 pub mod ansi;
 pub mod prompt;
 pub mod prompt_options;

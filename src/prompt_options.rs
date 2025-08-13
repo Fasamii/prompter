@@ -30,6 +30,8 @@ impl PromptOptions {
             .map_err(|_| PrompterError::IOError)?;
         let stdin = io::stdin();
 
+        write!(stdout, "{}", crate::SAVE_CURSOR).map_err(|_| PrompterError::IOError)?;
+
         let mut selected = 0;
         Self::render(&mut stdout, items, selected)?;
 
@@ -72,7 +74,7 @@ impl PromptOptions {
         items: &[&str],
         selected: usize,
     ) -> Result<(), PrompterError> {
-        write!(stdout, "\r").map_err(|_| PrompterError::IOError)?;
+        write!(stdout, "{}", crate::RESTORE_CURSOR).map_err(|_| PrompterError::IOError)?;
 
         for (idx, item) in items.iter().enumerate() {
             if idx == selected {
@@ -109,7 +111,7 @@ impl PromptOptions {
         items: &[&str],
         selected: Option<usize>,
     ) -> Result<(), PrompterError> {
-        write!(stdout, "\r").map_err(|_| PrompterError::IOError)?;
+        write!(stdout, "{}", crate::RESTORE_CURSOR).map_err(|_| PrompterError::IOError)?;
 
         for (idx, item) in items.iter().enumerate() {
             let color = match selected {
