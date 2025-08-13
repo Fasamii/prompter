@@ -10,6 +10,9 @@ pub mod ansi;
 pub mod prompt;
 pub mod prompt_options;
 
+pub use prompt::prompt;
+pub use prompt_options::PromptOptions;
+
 use std::io::{self, Write, stdout};
 
 #[derive(Debug)]
