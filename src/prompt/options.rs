@@ -32,7 +32,6 @@ impl Options {
             })? {
                 Key::Char('q' | 'e') | Key::Esc => {
                     Self::seal(&mut stdout, &options, None)?;
-                    prompt_write!(stdout, "\r\n")?;
                     return Err(PromptError::UserInput(error::PromptErrorKind::UserQuit));
                 }
                 Key::Char('a' | 'h') | Key::Left => {
@@ -53,7 +52,6 @@ impl Options {
                 }
                 Key::Char('\n' | 's' | 'j') | Key::Down => {
                     Self::seal(&mut stdout, &options, Some(selected))?;
-                    prompt_write!(stdout, "\r\n")?;
                     return Ok(selected);
                 }
                 _ => {}
@@ -128,6 +126,7 @@ impl Options {
             }
         }
 
+        prompt_write!(stdout, "\r\n")?;
         stdout.flush().map_err(|err| PromptError::Io {
             kind: error::PromptErrorKind::StdOut,
             source: err,
